@@ -1,0 +1,23 @@
+# 1️⃣ Define source and target folders
+SOURCE_FOLDER=~/LABS/lab14/learn-terraform-enforce-policies/policy-library-CIS-Policy-Set-for-AWS
+TARGET_FOLDER=~/LABS/lab14/learn-terraform-enforce-policies/testdata
+
+# 2️⃣ Make sure the target folder exists
+mkdir -p "$TARGET_FOLDER"
+
+# 3️⃣ Move all .sentinel and .hcl files (including in subfolders) to the target
+#    and store their paths in a variable for Git staging
+MOVED_FILES=$(find "$SOURCE_FOLDER" -type f \( -name "*.sentinel" -o -name "*.hcl" \) -exec mv {} "$TARGET_FOLDER" \; -print)
+
+# 4️⃣ Verify the moved files
+echo "Files moved to testdata/:"
+echo "$MOVED_FILES"
+
+# 5️⃣ Stage only the newly moved files in Git
+git add $MOVED_FILES
+
+# 6️⃣ Commit the new files
+git commit -m "Add newly extracted Sentinel policies and mocks"
+
+# 7️⃣ Push to remote (replace 'main' with your branch if needed)
+git push origin main
